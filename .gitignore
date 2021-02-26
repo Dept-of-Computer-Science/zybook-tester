@@ -4,6 +4,10 @@
 # Log file
 *.log
 
+#intellJ
+.idea/
+*.iml
+
 # BlueJ files
 *.ctxt
 

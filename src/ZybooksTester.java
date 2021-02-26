@@ -6,7 +6,7 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  * This class wraps various junit tests. By having it, we can write junit tests for 
@@ -22,31 +22,60 @@ public class ZybooksTester {
     }
 
     public boolean assertEquals(Object expected, Object actual) {
-        return assertEquals(expected, actual, "");
+        return assertEquals(expected, actual, null);
     }
 
-    public boolean assertEquals(Object expected, Object actual, String testID) {
+    public boolean assertEquals(Object expected, Object actual, String message) {
+        return assertEquals(expected, actual, message, true);
+    }
+    public boolean assertEquals(Object expected, Object actual, String message, boolean strip) {
+        String expectedOut =  expected.toString();
+        String actualOut =  actual.toString();
+        if(strip) {
+            actual = actual.toString().toLowerCase().replace("\\s+", "");
+            expected = expected.toString().toLowerCase().replace("\\s+", "");
+        }
         boolean val = expected.toString().equals(actual.toString());
         if(!val) {
-            testFeedback.write(String.format("Test %s Failed\n", testID));
-            testFeedback.write(String.format("Expected: %s%n", expected));
-            testFeedback.write(String.format("Actual: %s%n", actual));
+            feedbackWriter(expectedOut, actualOut, message);
         }
         return val;
     }
 
     public boolean assertNull(Object obj) {
-        return assertNull(obj,  "");
+        return assertNull(obj,  null);
     }
 
-    public boolean assertNull(Object obj, String testID) {
+    public boolean assertNull(Object obj, String message) {
         boolean val = obj == null;
         if(!val) {
-            testFeedback.write(String.format("Test %s Failed\n", testID));
-            testFeedback.write(String.format("Expected: %s%n", null));
-            testFeedback.write(String.format("Actual: %s%n", obj));
+            feedbackWriter(null, obj.toString(), message);
         }
         return val;
     }
 
+    
+    public static String readFileToString(String fileName) {
+        StringBuilder out = new StringBuilder();
+        try {
+            BufferedReader reader1 = new BufferedReader(new FileReader(fileName));
+            String line1 = reader1.readLine();
+            while (line1 != null) {
+                out.append(line1);
+                line1 = reader1.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out.toString();
+    }
+    
+    private void feedbackWriter(String expected, String actual, String message) {
+        testFeedback.write("Test Failed\n");
+        testFeedback.write(String.format("Expected: %s%n", expected));
+        testFeedback.write(String.format("Actual: %s%n", actual));
+        if(message !=null) {
+            testFeedback.write(message);
+        }
+    }
 }
