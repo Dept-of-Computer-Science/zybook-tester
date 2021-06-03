@@ -32,10 +32,13 @@ public class ZybooksTester {
         String expectedOut =  expected.toString();
         String actualOut =  actual.toString();
         if(strip) {
-            actual = actual.toString().toLowerCase().replace("\\s+", "");
-            expected = expected.toString().toLowerCase().replace("\\s+", "");
+            actual = actual.toString().toLowerCase().replaceAll("\\s+", "");
+            expected = expected.toString().toLowerCase().replaceAll("\\s+", "");
+            if(message == null) message = ""; 
+            message += "\nNote: displayed output has spaces and case removed";
+            
         }
-        boolean val = expected.toString().equals(actual.toString());
+        boolean val = expected.equals(actual);
         if(!val) {
             feedbackWriter(expectedOut, actualOut, message);
         }
