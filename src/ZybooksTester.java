@@ -16,9 +16,29 @@ import java.io.*;
 public class ZybooksTester {
 
     final PrintWriter testFeedback;
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
     public ZybooksTester(PrintWriter testFeedback) {
         this.testFeedback = testFeedback;
+    }
+    
+    public void controlOutput() {
+        System.setOut(new PrintStream(baos));
+    }
+    
+    public String getSystemOut() {
+        return baos.toString();
+    }
+    
+    public boolean assertContains(String actual, String[] expected) {
+        boolean contains = true;
+        for(String str : expected) {
+            if(!actual.contains(str)) {
+                contains = false;
+                break;
+            }
+        }
+        return contains;
     }
 
     public boolean assertEquals(Object expected, Object actual) {
