@@ -31,14 +31,13 @@ public class ZybooksTester {
     }
     
     public boolean assertContains(String actual, String[] expected) {
-        boolean contains = true;
         for(String str : expected) {
-            if(!actual.contains(str)) {
-                contains = false;
-                break;
+            if(! (actual.contains(str))) {
+                testFeedback.write("Not found: Expecting " + str);
+                return false;
             }
         }
-        return contains;
+        return true;
     }
 
     public boolean assertEquals(Object expected, Object actual) {
