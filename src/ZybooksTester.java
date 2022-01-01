@@ -18,6 +18,7 @@ public class ZybooksTester {
     final PrintWriter testFeedback;
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
+    
     public ZybooksTester(PrintWriter testFeedback) {
         this.testFeedback = testFeedback;
     }
@@ -54,9 +55,7 @@ public class ZybooksTester {
         if(strip) {
             actual = actual.toString().toLowerCase().replaceAll("\\s+", "");
             expected = expected.toString().toLowerCase().replaceAll("\\s+", "");
-            if(message == null) message = ""; 
-            message += "\nNote: displayed output has spaces and case removed";
-            
+            if(message == null) message = "";            
         }
         boolean val = expected.equals(actual);
         if(!val) {
@@ -87,6 +86,7 @@ public class ZybooksTester {
                 out.append(line1);
                 line1 = reader1.readLine();
             }
+            reader1.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
