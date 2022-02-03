@@ -30,6 +30,11 @@ public class ZybooksTester {
     public String getSystemOut() {
         return baos.toString();
     }
+
+    public void setSystemIn(String input) {
+        ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes());
+        System.setIn(bais);
+    }
     
     public boolean assertContains(String actual, String[] expected) {
         for(String str : expected) {
@@ -97,7 +102,7 @@ public class ZybooksTester {
         testFeedback.write(String.format("Expected: %s%n", expected));
         testFeedback.write(String.format("Actual: %s%n", actual));
         if(message !=null) {
-            testFeedback.write(message);
+            testFeedback.write(message +"\n");
         }
     }
 }
